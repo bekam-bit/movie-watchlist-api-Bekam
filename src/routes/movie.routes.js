@@ -16,6 +16,13 @@ router.get("/:id", moviesController.movieDetail);
 router.post("/", requireApiKey, validateMovie, moviesController.postMovie);
 
 // Protected PATCH route (requires API key + validation)
-router.patch("/:id", requireApiKey, validateMovieUpdate, moviesController.updateMovie);
+router.patch(
+  "/:id",
+  requireApiKey,
+  validateMovieUpdate,
+  moviesController.updateMovie,
+);
+
+router.delete("/:id", requireApiKey, moviesController.deleteMovie);
 
 export default router;

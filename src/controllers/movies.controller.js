@@ -52,3 +52,21 @@ export const updateMovie = (req, res, next) => {
     next(err);
   }
 };
+
+export const deleteMovie = (req, res, next) => {
+  try {
+    const movieId = req.params.id;
+    const deletedMovie = moviesService.deleteMovie(movieId);
+
+    if (!deletedMovie) {
+      return res.status(404).json({
+        error: "Not Found",
+        message: "The movie does not exist",
+      });
+    }
+
+    res.status(204).json({ message: "Successfully deleted"});
+  } catch (err) {
+    next(err);
+  }
+};

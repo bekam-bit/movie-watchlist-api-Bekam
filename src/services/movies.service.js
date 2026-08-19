@@ -32,27 +32,40 @@ export function createMovie(movie) {
 
 export function updateMovie(id, updates) {
   const movieId = Number(id);
-  
+
   // Find the movie by ID
   const index = movies.findIndex((movie) => movie.id === movieId);
-  
+
   // If movie not found, return null
   if (index === -1) {
     return null;
   }
-  
+
   // Get existing movie
   const existingMovie = movies[index];
-  
+
   // Merge updates with existing data (only update provided fields)
   const updatedMovie = {
-    ...existingMovie,  // Keep all existing fields
-    ...updates         // Override with provided updates
+    ...existingMovie, // Keep all existing fields
+    ...updates, // Override with provided updates
   };
-  
+
   // Update the array
   movies[index] = updatedMovie;
-  
+
   return { data: updatedMovie };
 }
 
+export function deleteMovie(id) {
+  const movieId = Number(id);
+
+  const index = movies.findIndex((movie) => movie.id === movieId);
+
+  if (index === -1) {
+    return null;
+  }
+  const deletedMovies = movies[index];
+  movies.splice(index, 1);
+
+  return { data: deletedMovies };
+}
