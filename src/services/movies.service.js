@@ -1,7 +1,33 @@
 import { movies } from "../data/movies.js";
 
-export function getAllMovies() {
-  return { data: movies || [] };
+export function getAllMovies(filters = {}) {
+  let filteredMovies = [...movies]; // Create a copy to filter
+
+  // Filter by watched (query param is string "true" or "false")
+  if (filters.watched !== undefined) {
+    const watchedValue = filters.watched === "true"; // Convert string to boolean
+    filteredMovies = filteredMovies.filter(
+      (movie) => movie.watched === watchedValue
+    );
+  }
+
+  // Filter by genre (case-insensitive)
+  if (filters.genre !== undefined && filters.genre !== "") {
+    const genreLower = filters.genre.toLowerCase();
+    filteredMovies = filteredMovies.filter(
+      (movie) => movie.genre.toLowerCase() === genreLower
+    );
+  }
+
+  // Filter by search (title contains search text, case-insensitive)
+  if (filters.search !== undefined && filters.search !== "") {
+    const searchLower = filters.search.toLowerCase();
+    filteredMovies = filteredMovies.filter((movie) =>
+      movie.title.toLowerCase().includes(searchLower)
+    );
+  }
+
+  return { data: filteredMovies };
 }
 
 export function getMovie(id) {

@@ -2,7 +2,12 @@ import * as moviesService from "../services/movies.service.js";
 
 export const ListMovies = (req, res, next) => {
   try {
-    const movies = moviesService.getAllMovies();
+    // Extract query parameters
+    const { watched, genre, search } = req.query;
+
+    // Pass filters to service
+    const movies = moviesService.getAllMovies({ watched, genre, search });
+    
     res.status(200).json(movies);
   } catch (err) {
     next(err);
