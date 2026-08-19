@@ -13,19 +13,25 @@ export const movieDetail = (req, res, next) => {
   try {
     const movieId = req.params.id;
     const movie = moviesService.getMovie(movieId);
-    
+
     if (!movie) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         error: "Not Found",
-        message: "The movie does not exist" 
+        message: "The movie does not exist",
       });
     }
-    
+
     res.status(200).json({ data: movie });
   } catch (err) {
     next(err);
   }
 };
 
-
-
+export const postMovie = (req, res, next) => {
+  try {
+    const movie = moviesService.createMovie(req.body);
+    res.status(201).json({ message: "Succesfully created", ...movie });
+  } catch (err) {
+    next(err);
+  }
+};

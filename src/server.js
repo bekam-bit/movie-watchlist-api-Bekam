@@ -9,20 +9,19 @@ const app = express();
 app.use(express.json());
 app.use(requestLogger);
 
+// Public routes (no API key needed)
 app.get("/", (req, res) => {
-    res.status(200).json({ message: "Movie Watchlist API is running" });
+  res.status(200).json({ message: "Movie Watchlist API is running" });
 });
 
 app.get("/api/health", (req, res) => {
-    res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok" });
 });
 
-// Movie routes
+// Movie routes (GET methods are public, others require API key)
 app.use("/api/movies", movieRoutes);
 
-app.use(requireApiKey);
-
-// 404 handler 
+// 404 handler - must be last
 app.use(notFound);
 
 const PORT = 3000;
